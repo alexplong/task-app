@@ -11,14 +11,20 @@ function Overview(props) {
         return (
           <div key={task.id}>
             <li>
-              <input type="checkbox" id={task.id} />
+              <input
+                type="checkbox"
+                id={task.id}
+                defaultChecked={task.completed}
+              />
               <label htmlFor={task.id}>{task.text}</label>
-              <button type="button" onClick={() => handleEdit(task.id)}>
-                Edit
-              </button>
-              <button type="button" onClick={() => onDeleteClick(task.id)}>
-                Delete
-              </button>
+              <div className="btn-group">
+                <button type="button" onClick={() => handleEdit(task.id)}>
+                  Edit
+                </button>
+                <button type="button" onClick={() => onDeleteClick(task.id)}>
+                  Delete
+                </button>
+              </div>
             </li>
           </div>
         );

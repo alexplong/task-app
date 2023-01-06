@@ -2,6 +2,8 @@
 import React from "react";
 import Overview from "./components/Overview";
 import uniqid from "uniqid";
+import Form from "./components/Form";
+import FilterButton from "./components/FilterButton";
 
 class App extends React.Component {
   constructor() {
@@ -11,11 +13,12 @@ class App extends React.Component {
       task: {
         text: "",
         id: uniqid(),
+        completed: false,
       },
       tasks: [
-        { text: "Eat", id: "sample1" },
-        { text: "Sleep", id: "sample2" },
-        { text: "Code", id: "sample3" },
+        { text: "Eat", id: "sample1", completed: true },
+        { text: "Sleep", id: "sample2", completed: false },
+        { text: "Code", id: "sample3", completed: false },
       ],
     };
   }
@@ -71,35 +74,14 @@ class App extends React.Component {
     return (
       <div>
         <h1>Your To Do App Developed with React</h1>
-        <form onSubmit={this.onTaskSubmit}>
-          <h2>
-            <label htmlFor="taskInput">Add a task</label>
-          </h2>
-          <input
-            type="text"
-            value={task.text}
-            onChange={this.handleChange}
-            id="taskInput"
-          />
-          <button type="submit">Add</button>
-        </form>
-        <div>
-          <button type="button" aria-pressed="true">
-            <span className="visually-hidden">Show </span>
-            <span>all</span>
-            <span className="visually-hidden"> tasks</span>
-          </button>
-          <button type="button" aria-pressed="false">
-            <span className="visually-hidden">Show </span>
-            <span>Active</span>
-            <span className="visually-hidden"> tasks</span>
-          </button>
-          <button type="button" aria-pressed="false">
-            <span className="visually-hidden">Show </span>
-            <span>Completed</span>
-            <span className="visually-hidden"> tasks</span>
-          </button>
-        </div>
+
+        <Form
+          task={task}
+          onHandleChange={this.handleChange}
+          onTaskSubmit={this.onTaskSubmit}
+        />
+        <h2>{tasks.length} tasks remaining</h2>
+        <FilterButton />
         <Overview
           tasks={tasks}
           handleEdit={this.handleEdit}

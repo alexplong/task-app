@@ -3,7 +3,9 @@ import React from "react";
 import Overview from "./components/Overview";
 import uniqid from "uniqid";
 import Form from "./components/Form";
-import FilterButton from "./components/FilterButton";
+import FilterButtons from "./components/FilterButtons";
+import RemainingTasksInfo from "./components/RemainingTasksInfo";
+import EditTasks from "./components/EditTask";
 
 class App extends React.Component {
   constructor() {
@@ -80,14 +82,15 @@ class App extends React.Component {
           onHandleChange={this.handleChange}
           onTaskSubmit={this.onTaskSubmit}
         />
-        <h2>{tasks.length} tasks remaining</h2>
-        <FilterButton />
+        <RemainingTasksInfo tasks={tasks} />
+        <FilterButtons />
         <Overview
           tasks={tasks}
           handleEdit={this.handleEdit}
           setUpdate={this.setUpdate}
           onDeleteClick={this.onDeleteClick}
         />
+        <EditTasks />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 /** @format */
 
-function FilterButton(props) {
+function FilterButtons(props) {
   return (
     <div className="btn-group">
       <button type="button" aria-pressed="true">
@@ -22,4 +22,4 @@ function FilterButton(props) {
   );
 }
 
-export default FilterButton;
+export default FilterButtons;

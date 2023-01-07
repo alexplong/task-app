@@ -1,83 +1,72 @@
 /** @format */
 
 function Overview(props) {
-  const { tasks, handleEdit, setUpdate, onDeleteClick } = props;
+  const {
+    taskToEdit,
+    onHandleEditChange,
+    tasks,
+    handleEditMode,
+    handleSaveEdit,
+    handleKeyDown,
+    onDeleteClick,
+  } = props;
 
-  const editingTemplate = (
-    <div>
-      <div>
-        <span>
-          <label htmlFor="editTask">Change {}</label>
-        </span>
+  const editingTemplate = (task) => {
+    return (
+      <div key={task.id}>
+        <div>
+          <span>
+            <label htmlFor="editTask">Edit {task.text}</label>
+          </span>
+        </div>
+        <input
+          type="text"
+          id="editTask"
+          value={taskToEdit.text}
+          onChange={onHandleEditChange}
+          onKeyDown={handleKeyDown}
+        />
+        <div>
+          <button type="submit" onClick={() => handleEditMode(task.id, "off")}>
+            Cancel
+          </button>
+          <button type="submit" onClick={() => handleSaveEdit(task.id)}>
+            Save
+          </button>
+        </div>
       </div>
-      <input
-        type="text"
-        // value={ }
-        id="editTask"
-      />
-      <div>
-        <button type="submit">Cancel</button>
-        <button type="submit">Save</button>
-      </div>
-    </div>
-  );
+    );
+  };
 
-  const viewTemplate = (
-    <div>
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-      <ul role="list">
-        {/* assistive technology */}
-        {tasks.map((task) => {
-          return (
-            <div key={task.id}>
-              <li>
-                <input
-                  type="checkbox"
-                  id={task.id}
-                  defaultChecked={task.completed}
-                />
-                <label htmlFor={task.id}>{task.text}</label>
-                <div className="btn-group">
-                  <button type="button" onClick={() => handleEdit(task.id)}>
-                    Edit
-                  </button>
-                  <button type="button" onClick={() => onDeleteClick(task.id)}>
-                    Delete
-                  </button>
-                </div>
-              </li>
-            </div>
-          );
-        })}
-      </ul>
-    </div>
-  );
+  const viewTemplate = (task) => {
+    return (
+      <div key={task.id}>
+        <li>
+          <input type="checkbox" id={task.id} defaultChecked={task.completed} />
+          <label htmlFor={task.id}>{task.text}</label>
+          <div className="btn-group">
+            <button type="button" onClick={() => handleEditMode(task.id, "on")}>
+              Edit
+            </button>
+            <button type="button" onClick={() => onDeleteClick(task.id)}>
+              Delete
+            </button>
+          </div>
+        </li>
+      </div>
+    );
+  };
 
   return (
     // eslint-disable-next-line jsx-a11y/no-redundant-roles
     <ul role="list">
-      {/* assistive technology */}
+      {/* role above for assistive technology */}
       {tasks.map((task) => {
-        return (
-          <div key={task.id}>
-            <li>
-              <input
-                type="checkbox"
-                id={task.id}
-                defaultChecked={task.completed}
-              />
-              <label htmlFor={task.id}>{task.text}</label>
-              <div className="btn-group">
-                <button type="button" onClick={() => handleEdit(task.id)}>
-                  Edit
-                </button>
-                <button type="button" onClick={() => onDeleteClick(task.id)}>
-                  Delete
-                </button>
-              </div>
-            </li>
-          </div>
-        );
+        if (task.editMode === true) {
+          return editingTemplate(task);
+        } else {
+          return viewTemplate(task);
+        }
       })}
     </ul>
   );

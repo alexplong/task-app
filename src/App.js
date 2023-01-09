@@ -14,13 +14,15 @@ class App extends React.Component {
     this.state = {
       task: {
         text: "",
+        newText: "",
         id: uniqid(),
+        editMode: false,
         completed: false,
       },
       tasks: [
-        { text: "Eat", id: "sample1", completed: true },
-        { text: "Sleep", id: "sample2", completed: false },
-        { text: "Code", id: "sample3", completed: false },
+        { text: "Eat", id: "sample1", editMode: false, completed: true },
+        { text: "Sleep", id: "sample2", editMode: false, completed: false },
+        { text: "Code", id: "sample3", editMode: false, completed: false },
       ],
     };
   }
@@ -30,6 +32,8 @@ class App extends React.Component {
       task: {
         text: e.target.value,
         id: this.state.task.id,
+        editMode: false,
+        completed: false,
       },
     });
   };
@@ -41,26 +45,49 @@ class App extends React.Component {
       task: {
         text: "",
         id: uniqid(),
+        editMode: false,
+        completed: false,
       },
     });
   };
 
-  handleEdit = (id) => {
-    console.log("i will edit soon");
-    // this.setState({});
+  handleEditMode = (id, state) => {
+    this.setState({
+      tasks: this.state.tasks.map((item) => {
+        if (item.id === id && state === "on") {
+          return { ...item, editMode: true };
+        }
+        if (item.id === id && state === "off") {
+          return { ...item, editMode: false };
+        }
+        return item;
+      }),
+    });
   };
 
-  setUpdate = (updatedTask, id) => {
+  onHandleEditChange = (e) => {
     this.setState({
       task: {
-        text: this.state.tasks.map((task) => {
-          if (task.id === id) {
-            task.text = updatedTask;
-          }
-          return task;
-        }),
+        text: e.target.value,
       },
     });
+  };
+
+  handleSaveEdit = (id) => {
+    this.setState({
+      tasks: this.state.tasks.map((item) => {
+        if (item.id === id) {
+          return { ...item, text: this.state.task.text, editMode: false };
+        }
+        return item;
+      }),
+    });
+  };
+
+  handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      console.log(e.target.parentNode);
+    }
   };
 
   onDeleteClick = (id) => {
@@ -84,13 +111,16 @@ class App extends React.Component {
         />
         <RemainingTasksInfo tasks={tasks} />
         <FilterButtons />
+
         <Overview
+          taskToEdit={task}
+          onHandleEditChange={this.onHandleEditChange}
           tasks={tasks}
-          handleEdit={this.handleEdit}
-          setUpdate={this.setUpdate}
+          handleEditMode={this.handleEditMode}
           onDeleteClick={this.onDeleteClick}
+          handleSaveEdit={this.handleSaveEdit}
+          handleKeyDown={this.handleKeyDown}
         />
-        <EditTasks />
       </div>
     );
   }

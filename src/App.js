@@ -16,7 +16,7 @@ class App extends React.Component {
         text: "",
         newText: "",
         id: uniqid(),
-        editMode: false,
+        editMode: false, // new
         completed: false,
       },
       tasks: [
@@ -52,6 +52,7 @@ class App extends React.Component {
   };
 
   handleEditMode = (id, state) => {
+    // new
     this.setState({
       tasks: this.state.tasks.map((item) => {
         if (item.id === id && state === "on") {

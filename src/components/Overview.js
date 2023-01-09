@@ -22,7 +22,7 @@ function Overview(props) {
         <input
           type="text"
           id="editTask"
-          value={taskToEdit.text}
+          value={taskToEdit.newText}
           onChange={onHandleEditChange}
           onKeyDown={handleKeyDown}
         />

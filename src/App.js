@@ -69,7 +69,7 @@ class App extends React.Component {
   onHandleEditChange = (e) => {
     this.setState({
       task: {
-        text: e.target.value,
+        newText: e.target.value,
       },
     });
   };
@@ -78,10 +78,13 @@ class App extends React.Component {
     this.setState({
       tasks: this.state.tasks.map((item) => {
         if (item.id === id) {
-          return { ...item, text: this.state.task.text, editMode: false };
+          return { ...item, text: this.state.task.newText, editMode: false };
         }
         return item;
       }),
+      task: {
+        newText: "",
+      },
     });
   };
 
